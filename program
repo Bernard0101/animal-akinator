@@ -106,7 +106,7 @@ class arvore_decisao_animais:
                     if self.ans3 == "n" or self.ans3 is None:
                         user_char=input("uma caracteristica do animal\n>>>")
                     else:
-                        user_char=self.characteristic
+                        user_char=self.caracteristic
                     user_anim=input("qual seu animal\n>>>")
                     
        
