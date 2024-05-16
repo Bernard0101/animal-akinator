@@ -1,0 +1,122 @@
+#definiçao da classe/escopo do projeto 
+class arvore_decisao_animais:
+    def __init__(self):
+        self.arvore={}
+        self.ans1= None
+        self.ans2= None
+        self.ans3= None
+        self.ans4= None
+        
+    #here it reads the data and creates the tree structure
+    def ler_organizar_dados(self):  
+        with open("data.txt","r") as data:
+            for line in data:
+                values=line.strip().split(";")
+                environment=(values[0])
+                species=(values[1])
+                characteristic=(values[2])
+                animal=(values[3])
+                if environment not in self.arvore:
+                    self.arvore[environment]={}
+                if species not in self.arvore[environment]:
+                    self.arvore[environment][species]={}
+                if characteristic not in self.arvore[environment][species]:
+                    self.arvore[environment][species][characteristic]=[]
+                if animal not in self.arvore[environment][species][characteristic]:
+                    self.arvore[environment][species][characteristic].append(animal)
+            return self.arvore
+       
+        
+    #here the user interacts with the tree algorithm giving answers to the model based on yes or no
+    def QandA_animals(self):
+        print("responda com s ou n para as afirmativas a seguir\n")
+        layer_1= len(self.arvore)
+        for ambiente in self.arvore:
+            self.ans1=input(f"esse e o ambiente do animal {ambiente}?\n>>>")
+            if self.ans1 == "s":
+                self.environment=ambiente
+                break
+            layer_1-=1
+            if layer_1 == 0:
+                print("ambiente nao encontrado")
+                return
+            
+        layer_2= len(self.arvore[self.environment])
+        for especie in self.arvore[self.environment]:
+            self.ans2=input(f"esse e o grupo de especie do seu animal {especie}?\n>>>")
+            if self.ans2 == "s":
+                self.species=especie
+                break
+            layer_2-=1
+            if layer_2 == 0:
+                print("especie nao encontrada")
+                return
+         
+            
+        layer_3= len(self.arvore[self.environment][self.species])
+        chars_add=[]
+        while len(chars_add) < 2:
+            for caracteristica in (self.arvore[self.environment][self.species]):
+                self.ans3= input(f"{caracteristica}\n>>>")
+                if self.ans3 == "s":
+                    chars_add.append(caracteristica)
+                    del self.arvore[self.environment][self.species][caracteristica]
+                    break
+                layer_3-=1
+                del self.arvore[self.environment][self.species][caracteristica]
+                break
+                if layer_3 == 0:
+                    print("caracteristica nao encontrada")
+                    return
+                
+        for char in chars_add:
+            print(f"\n{char}")
+        self.caracteristic=input("das carcteristicas acima qual mais se aplica a seu animal?")
+            
+        for animal in self.arvore[self.environment][self.species][self.caracteristic]:
+            self.ans4=input(f"esse e seu animal? {animal}\n>>>")
+            if self.ans4 == "s":
+                print("muito obrigado por jogar")
+                break
+            else:
+                print("mais sorte na proxima vez")
+                break
+            
+    
+    #here the program adds to its data, the answers of the user so that it can range more animals     
+    def aumentar_memoria(self):
+        if self.ans4 == 'n' or self.ans4 is None:
+            with open("data.txt","a") as file:
+                print('como nao obtive sucesso em acrtar seu animal me de algumas dicas para que futuramente possa acerta-lo')
+                if self.ans4 == "n" or self.ans4 is None:
+                    if self.ans1 == "n" or self.ans1 is None:
+                        user_ambient=input('me fale qual o ambiente desse animaln>>>')
+                    else:
+                        user_ambient=self.environment
+                    if self.ans2 == "n" or self.ans2 is None:
+                        user_order=input('me fale qual é a fisiologia/anatomia do seu animal\n>>>')
+                    else: 
+                        user_order=self.species
+                    if self.ans3 == "n" or self.ans3 is None:
+                        user_char=input("uma caracteristica do animal\n>>>")
+                    else:
+                        user_char=self.characteristic
+                    user_anim=input("qual seu animal\n>>>")
+                    
+       
+                    data=(f"\n{user_ambient} ; {user_order} ; {user_char} ; {user_anim}")
+                    file.write(data)
+            
+adivinhaçao=arvore_decisao_animais()
+adivinhaçao.ler_organizar_dados()
+adivinhaçao.QandA_animals()
+adivinhaçao.aumentar_memoria()
+          
+
+
+
+
+
+
+
+  
