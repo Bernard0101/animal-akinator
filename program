@@ -1,3 +1,5 @@
+
+
 #definiçao da classe/escopo do projeto 
 class arvore_decisao_animais:
     def __init__(self):
@@ -55,24 +57,28 @@ class arvore_decisao_animais:
             
         layer_3= len(self.arvore[self.environment][self.species])
         chars_add=[]
-        while len(chars_add) < 2:
-            for caracteristica in (self.arvore[self.environment][self.species]):
-                self.ans3= input(f"{caracteristica}\n>>>")
-                if self.ans3 == "s":
-                    chars_add.append(caracteristica)
-                    del self.arvore[self.environment][self.species][caracteristica]
+        starting_index=0
+        while len(chars_add) < 1 or layer_3 == 0:
+            for index, caracteristica in enumerate(self.arvore[self.environment][self.species]):
+                if index == starting_index:
+                    self.ans3= input(f"{caracteristica}\n>>>")
+                    if self.ans3 == "s":
+                        chars_add.append(caracteristica)
+                        layer_3-=1
+                        starting_index+=1
+                        break
+                    layer_3-=1
+                    starting_index+=1
                     break
-                layer_3-=1
-                del self.arvore[self.environment][self.species][caracteristica]
-                break
-                if layer_3 == 0:
-                    print("caracteristica nao encontrada")
-                    return
+                    if layer_3 == 0:
+                        print("caracteristica nao encontrada")
+                        return
                 
         for char in chars_add:
             print(f"\n{char}")
         self.caracteristic=input("das carcteristicas acima qual mais se aplica a seu animal?")
             
+        
         for animal in self.arvore[self.environment][self.species][self.caracteristic]:
             self.ans4=input(f"esse e seu animal? {animal}\n>>>")
             if self.ans4 == "s":
