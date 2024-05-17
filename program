@@ -34,70 +34,55 @@ class arvore_decisao_animais:
         print("responda com s ou n para as afirmativas a seguir\n")
         
         #here it gets the animal environment
-        layer_1= len(self.arvore)
         for ambiente in self.arvore:
             self.ans1=input(f"esse e o ambiente do animal {ambiente}?\n>>>")
             if self.ans1 == "s":
                 self.environment=ambiente
                 break
-            layer_1-=1
-            if layer_1 == 0:
-                print("ambiente nao encontrado")
-                return
+        else:
+            print("ambiente nao encontrado")
+            return
             
         #here it gets the animal order/species
-        layer_2= len(self.arvore[self.environment])
         for especie in self.arvore[self.environment]:
             self.ans2=input(f"esse e o grupo de especie do seu animal {especie}?\n>>>")
             if self.ans2 == "s":
                 self.species=especie
                 break
-            layer_2-=1
-            if layer_2 == 0:
-                print("especie nao encontrada")
-                return
+        else:
+            print("especie nao encontrada")
+            return
          
         #here it gets the animal characteristics
-        layer_3= len(self.arvore[self.environment][self.species])
         chars_add=[]
         starting_index=0
-        while len(chars_add) < 1:
+        while len(chars_add) < 2:
             for index, caracteristica in enumerate(self.arvore[self.environment][self.species]):
                 if index == starting_index:
                     self.ans3= input(f"{caracteristica}\n>>>")
                     if self.ans3 == "s":
                         chars_add.append(caracteristica)
-                        layer_3-=1
                         starting_index+=1
                         break
-                    layer_3-=1
                     starting_index+=1
                     break
-                    if layer_3 == 0:
-                        print("caracteristica nao encontrada")
-                        return
-                
+            else:
+                print("caracterisca nao encontrada")
+                return
         for char in chars_add:
             print(f"\n{char}")
         self.caracteristic=input("das carcteristicas acima qual mais se aplica a seu animal?")
-            
+        
+        
         if len(self.arvore[self.environment][self.species][self.caracteristic]) != 0:
-            animal_rand=random.choice(self.arvore[self.environment][self.species][self.caracteristic])
-            self.ans4=input(f"esse e seu animal? {animal_rand}\n>>>")
+            animal_rand = random.choice(self.arvore[self.environment][self.species][self.caracteristic])
+            self.ans4 = input(f"Esse é seu animal ({animal_rand})? (s/n)\n>>> ")
             if self.ans4 == "s":
-                print("muito obrigado por jogar")
+                print("Muito obrigado por jogar!")
                 return
             else:
-                print("mais sorte na proxima vez")
+                print("Mais sorte na próxima vez!")
                 return
-        for animal in self.arvore[self.environment][self.species][self.caracteristic]:
-            self.ans4=input(f"esse e seu animal? {animal}\n>>>")
-            if self.ans4 == "s":
-                print("muito obrigado por jogar")
-                break
-            else:
-                print("mais sorte na proxima vez")
-                break
 
 
     #here the program adds to its data, the answers of the user so that it can range more animals     
@@ -124,6 +109,8 @@ class arvore_decisao_animais:
                     data=(f"\n{user_ambient};{user_order};{user_char};{user_anim}")
                     file.write(data)
             
+            
+#here is where the main program is runned
 adivinhaçao=arvore_decisao_animais()
 adivinhaçao.ler_organizar_dados()
 adivinhaçao.QandA_animals()
